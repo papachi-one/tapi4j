@@ -1,4 +1,4 @@
-#include "one_papachi_tap4j_Tap4j.h"
+#include "one_papachi_tapi4j_TapI4j.h"
 #include <unistd.h>
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
@@ -27,7 +27,7 @@ void throwException(JNIEnv *env, const char *exceptionClassName, int error) {
     (*env)->ThrowNew(env, exceptionClass, strerror(error));
 }
 
-JNIEXPORT jlong JNICALL Java_one_papachi_tap4j_Tap4j_open(JNIEnv *env, jclass class1, jstring deviceName) {
+JNIEXPORT jlong JNICALL Java_one_papachi_tapi4j_TapI4j_open(JNIEnv *env, jclass class1, jstring deviceName) {
     const char *_device = (*env)->GetStringUTFChars(env, deviceName, NULL);
     char *devicePath = concat("/dev/", _device);
     int fd = open(devicePath, O_RDWR);
@@ -39,7 +39,7 @@ JNIEXPORT jlong JNICALL Java_one_papachi_tap4j_Tap4j_open(JNIEnv *env, jclass cl
     return (jlong) fd;
 }
 
-JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_read(JNIEnv *env, jclass class1, jlong deviceHandle, jobject dst) {
+JNIEXPORT jint JNICALL Java_one_papachi_tapi4j_TapI4j_read(JNIEnv *env, jclass class1, jlong deviceHandle, jobject dst) {
     jbyte *_dst = (*env)->GetDirectBufferAddress(env, dst);
     const jint capacity = (*env)->GetDirectBufferCapacity(env, dst);
     jclass class = (*env)->GetObjectClass(env, dst);
@@ -56,7 +56,7 @@ JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_read(JNIEnv *env, jclass cla
     return bytesRead;
 }
 
-JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_write(JNIEnv *env, jclass class1, jlong deviceHandle, jobject src) {
+JNIEXPORT jint JNICALL Java_one_papachi_tapi4j_TapI4j_write(JNIEnv *env, jclass class1, jlong deviceHandle, jobject src) {
     const jbyte *_src = (*env)->GetDirectBufferAddress(env, src);
     const jint capacity = (*env)->GetDirectBufferCapacity(env, src);
     jclass class = (*env)->GetObjectClass(env, src);
@@ -73,13 +73,13 @@ JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_write(JNIEnv *env, jclass cl
     return bytesWritten;
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_close(JNIEnv *env, jclass class1, jlong deviceHandle) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_close(JNIEnv *env, jclass class1, jlong deviceHandle) {
     if (close(deviceHandle) == -1) {
         throwException(env, "java/io/IOException", errno);
     }
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setIPAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jstring ipAddress, jstring ipMask) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setIPAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jstring ipAddress, jstring ipMask) {
     const char *_deviceName = (*env)->GetStringUTFChars(env, deviceName, NULL);
     const char *_ipAddress = (*env)->GetStringUTFChars(env, ipAddress, NULL);
     const char *_ipMask = (*env)->GetStringUTFChars(env, ipMask, NULL);
@@ -99,7 +99,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setIPAddress(JNIEnv *env, jc
     (*env)->ReleaseStringUTFChars(env, deviceName, _deviceName);
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setStatus(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jboolean isUp) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setStatus(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jboolean isUp) {
     const char *_device = (*env)->GetStringUTFChars(env, deviceName, NULL);
     struct ifreq ifr;
     memset(&ifr, 0, sizeof(ifr));
@@ -122,7 +122,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setStatus(JNIEnv *env, jclas
     (*env)->ReleaseStringUTFChars(env, deviceName, _device);
 }
 
-JNIEXPORT jbyteArray JNICALL Java_one_papachi_tap4j_Tap4j_getMACAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle) {
+JNIEXPORT jbyteArray JNICALL Java_one_papachi_tapi4j_TapI4j_getMACAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle) {
     jbyteArray mac = (*env)->NewByteArray(env, 6);
     const char *_device = (*env)->GetStringUTFChars(env, deviceName, NULL);
     int mib[6];
@@ -157,7 +157,7 @@ JNIEXPORT jbyteArray JNICALL Java_one_papachi_tap4j_Tap4j_getMACAddress(JNIEnv *
     return mac;
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMACAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jbyteArray mac) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setMACAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jbyteArray mac) {
     const char *_device = (*env)->GetStringUTFChars(env, deviceName, NULL);
     struct ifreq ifr;
     memset(&ifr, 0, sizeof(ifr));
@@ -177,7 +177,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMACAddress(JNIEnv *env, j
     (*env)->ReleaseStringUTFChars(env, deviceName, _device);
 }
 
-JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_getMTU(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle) {
+JNIEXPORT jint JNICALL Java_one_papachi_tapi4j_TapI4j_getMTU(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle) {
     jint result = -1;
     const char *_device = (*env)->GetStringUTFChars(env, deviceName, NULL);
     struct ifreq ifr;
@@ -198,7 +198,7 @@ JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_getMTU(JNIEnv *env, jclass c
     return result;
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMTU(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jint mtu) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setMTU(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jint mtu) {
     const char *_device = (*env)->GetStringUTFChars(env, deviceName, NULL);
     struct ifreq ifr;
     memset(&ifr, 0, sizeof(ifr));
@@ -216,6 +216,6 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMTU(JNIEnv *env, jclass c
     (*env)->ReleaseStringUTFChars(env, deviceName, _device);
 }
 
-JNIEXPORT jobject JNICALL Java_one_papachi_tap4j_Tap4j_nativeList(JNIEnv *env, jclass class1) {
+JNIEXPORT jobject JNICALL Java_one_papachi_tapi4j_TapI4j_nativeList(JNIEnv *env, jclass class1) {
     throwException(env, "java/lang/UnsupportedOperationException", ENOSYS);
 }

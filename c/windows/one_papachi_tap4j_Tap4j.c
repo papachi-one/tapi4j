@@ -1,4 +1,4 @@
-#include "one_papachi_tap4j_Tap4j.h"
+#include "one_papachi_tapi4j_TapI4j.h"
 
 #include <stdio.h>
 #include <Windows.h>
@@ -69,7 +69,7 @@ ULONG getAddr(JNIEnv *env, const char *input) {
     return addrI;
 }
 
-JNIEXPORT jlong JNICALL Java_one_papachi_tap4j_Tap4j_open(JNIEnv *env, jclass class, jstring deviceName) {
+JNIEXPORT jlong JNICALL Java_one_papachi_tapi4j_TapI4j_open(JNIEnv *env, jclass class, jstring deviceName) {
     const char *_deviceName = (*env)->GetStringUTFChars(env, deviceName, NULL);
     char *tmp1 = concat("\\\\.\\", _deviceName);
     char *tmp2 = concat(tmp1, ".tap");
@@ -84,7 +84,7 @@ JNIEXPORT jlong JNICALL Java_one_papachi_tap4j_Tap4j_open(JNIEnv *env, jclass cl
     return (jlong) handle;
 }
 
-JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_read(JNIEnv *env, jclass class, jlong deviceHandle, jobject dst) {
+JNIEXPORT jint JNICALL Java_one_papachi_tapi4j_TapI4j_read(JNIEnv *env, jclass class, jlong deviceHandle, jobject dst) {
     jbyte *_dst = (*env)->GetDirectBufferAddress(env, dst);
     const jint capacity = (*env)->GetDirectBufferCapacity(env, dst);
     jclass class1 = (*env)->GetObjectClass(env, dst);
@@ -103,7 +103,7 @@ JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_read(JNIEnv *env, jclass cla
     return bytesRead;
 }
 
-JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_write(JNIEnv *env, jclass class, jlong deviceHandle, jobject src) {
+JNIEXPORT jint JNICALL Java_one_papachi_tapi4j_TapI4j_write(JNIEnv *env, jclass class, jlong deviceHandle, jobject src) {
     const jbyte *_src = (*env)->GetDirectBufferAddress(env, src);
     const jint capacity = (*env)->GetDirectBufferCapacity(env, src);
     jclass class1 = (*env)->GetObjectClass(env, src);
@@ -122,7 +122,7 @@ JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_write(JNIEnv *env, jclass cl
     return bytesWritten;
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_close(JNIEnv *env, jclass class, jlong deviceHandle) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_close(JNIEnv *env, jclass class, jlong deviceHandle) {
     BOOL errorFlag = CloseHandle((HANDLE) deviceHandle);
     if (errorFlag == FALSE) {
         DWORD error = GetLastError();
@@ -130,7 +130,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_close(JNIEnv *env, jclass cl
     }
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setIPAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jstring ipAddress, jstring ipMask) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setIPAddress(JNIEnv *env, jclass class1, jstring deviceName, jlong deviceHandle, jstring ipAddress, jstring ipMask) {
     const char *_deviceName = (*env)->GetStringUTFChars(env, deviceName, NULL);
     const char *_ipAddress = (*env)->GetStringUTFChars(env, ipAddress, NULL);
     const char *_ipMask = (*env)->GetStringUTFChars(env, ipMask, NULL);
@@ -177,7 +177,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setIPAddress(JNIEnv *env, jc
     (*env)->ReleaseStringUTFChars(env, deviceName, _deviceName);
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setStatus(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle, jboolean isUp) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setStatus(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle, jboolean isUp) {
     ULONG _isUp = isUp == JNI_TRUE ? 1 : 0;
     DWORD len;
     BOOL result = DeviceIoControl((HANDLE) deviceHandle, TAP_WIN_IOCTL_SET_MEDIA_STATUS, &_isUp, sizeof _isUp, &_isUp, sizeof _isUp, &len, NULL);
@@ -187,7 +187,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setStatus(JNIEnv *env, jclas
     }
 }
 
-JNIEXPORT jbyteArray JNICALL Java_one_papachi_tap4j_Tap4j_getMACAddress(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle) {
+JNIEXPORT jbyteArray JNICALL Java_one_papachi_tapi4j_TapI4j_getMACAddress(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle) {
     char macAddress[] = {0, 0, 0, 0, 0, 0};
     DWORD len;
     BOOL result = DeviceIoControl((HANDLE) deviceHandle, TAP_WIN_IOCTL_GET_MAC, 0, 0, &macAddress, 6, &len, NULL);
@@ -200,11 +200,11 @@ JNIEXPORT jbyteArray JNICALL Java_one_papachi_tap4j_Tap4j_getMACAddress(JNIEnv *
     return array;
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMACAddress(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle, jbyteArray mac) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setMACAddress(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle, jbyteArray mac) {
     throwException(env, "java/lang/UnsupportedOperationException", ERROR_CALL_NOT_IMPLEMENTED);
 }
 
-JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_getMTU(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle) {
+JNIEXPORT jint JNICALL Java_one_papachi_tapi4j_TapI4j_getMTU(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle) {
     jint mtu = 1500;
     const char *_netCfgInstanceId = (*env)->GetStringUTFChars(env, deviceName, NULL);
     const char adapterKey[] = ADAPTER_KEY;
@@ -252,7 +252,7 @@ JNIEXPORT jint JNICALL Java_one_papachi_tap4j_Tap4j_getMTU(JNIEnv *env, jclass c
     return mtu;
 }
 
-JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMTU(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle, jint mtu) {
+JNIEXPORT void JNICALL Java_one_papachi_tapi4j_TapI4j_setMTU(JNIEnv *env, jclass class, jstring deviceName, jlong deviceHandle, jint mtu) {
     const char *_netCfgInstanceId = (*env)->GetStringUTFChars(env, deviceName, NULL);
     const char adapterKey[] = ADAPTER_KEY;
     char _mtu[5];
@@ -299,7 +299,7 @@ JNIEXPORT void JNICALL Java_one_papachi_tap4j_Tap4j_setMTU(JNIEnv *env, jclass c
     (*env)->ReleaseStringUTFChars(env, deviceName, _netCfgInstanceId);
 }
 
-JNIEXPORT jobject JNICALL Java_one_papachi_tap4j_Tap4j_nativeList(JNIEnv *env, jclass _class) {
+JNIEXPORT jobject JNICALL Java_one_papachi_tapi4j_TapI4j_nativeList(JNIEnv *env, jclass _class) {
     jclass class = (*env)->FindClass(env, "java/util/ArrayList");
     jmethodID constructor = (*env)->GetMethodID(env, class, "<init>", "()V");
     jmethodID add = (*env)->GetMethodID(env, class, "add", "(Ljava/lang/Object;)Z");

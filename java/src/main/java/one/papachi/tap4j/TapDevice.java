@@ -1,4 +1,4 @@
-package one.papachi.tap4j;
+package one.papachi.tapi4j;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -18,7 +18,7 @@ public class TapDevice {
 	}
 
 	public void open() throws IOException {
-		deviceHandle = Tap4j.open(deviceName);
+		deviceHandle = TapI4j.open(deviceName);
 	}
 
 	public boolean isOpen() {
@@ -26,40 +26,40 @@ public class TapDevice {
 	}
 
 	public int read(ByteBuffer dst) throws IOException {
-		return Tap4j.read(deviceHandle, dst);
+		return TapI4j.read(deviceHandle, dst);
 	}
 
 	public int write(ByteBuffer src) throws IOException {
-		return Tap4j.write(deviceHandle, src);
+		return TapI4j.write(deviceHandle, src);
 	}
 
 	public void close() throws IOException {
-		Tap4j.close(deviceHandle);
+		TapI4j.close(deviceHandle);
 		deviceHandle = -1;
 	}
 
 	public void setIPAddress(String ipAddress, String ipMask) throws IOException {
-		Tap4j.setIPAddress(deviceName, deviceHandle, ipAddress, ipMask);
+		TapI4j.setIPAddress(deviceName, deviceHandle, ipAddress, ipMask);
 	}
 
 	public void setStatus(boolean isUp) throws IOException {
-		Tap4j.setStatus(deviceName, deviceHandle, isUp);
+		TapI4j.setStatus(deviceName, deviceHandle, isUp);
 	}
 
 	public byte[] getMAC() throws IOException {
-		return Tap4j.getMACAddress(deviceName, deviceHandle);
+		return TapI4j.getMACAddress(deviceName, deviceHandle);
 	}
 
 	public void setMAC(byte[] mac) throws IOException {
-		Tap4j.setMACAddress(deviceName, deviceHandle, mac);
+		TapI4j.setMACAddress(deviceName, deviceHandle, mac);
 	}
 
 	public int getMTU() throws IOException {
-		return Tap4j.getMTU(deviceName, deviceHandle);
+		return TapI4j.getMTU(deviceName, deviceHandle);
 	}
 
 	public void setMTU(int mtu) throws IOException {
-		Tap4j.setMTU(deviceName, deviceHandle, mtu);
+		TapI4j.setMTU(deviceName, deviceHandle, mtu);
 	}
 
 }

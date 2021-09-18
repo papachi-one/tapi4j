@@ -1,9 +1,9 @@
-package one.papachi.tap4j;
+package one.papachi.tapi4j;
 
-public class TapUtils {
+public class TapIUtils {
 
     enum OperatingSystemFamily {
-        WINDOWS("tap4j.dll"), LINUX("libtap4j.so"), MAC("libtap4j.dylib"), UNKNOWN(null);
+        WINDOWS("tapi4j.dll"), LINUX("libtapi4j.so"), MAC("libtapi4j.dylib"), UNKNOWN(null);
 
         private String libraryName;
 

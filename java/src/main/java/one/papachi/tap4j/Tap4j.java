@@ -1,4 +1,4 @@
-package one.papachi.tap4j;
+package one.papachi.tapi4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,16 +9,16 @@ import java.nio.ByteBuffer;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Tap4j {
+public class TapI4j {
 
     public static void main(String[] args) throws Exception {
         String deviceName = "{A6215D55-1B39-4C4E-B56E-250AB857A90A}";
-        long deviceHandle = Tap4j.open(deviceName);
+        long deviceHandle = TapI4j.open(deviceName);
         System.out.println(deviceHandle);
-        Tap4j.setStatus(deviceName, deviceHandle, true);
-        Tap4j.setIPAddress("{A6215D55-1B39-4C4E-B56E-250AB857A90A}", deviceHandle, "10.0.0.1", "255.0.0.0");
+        TapI4j.setStatus(deviceName, deviceHandle, true);
+        TapI4j.setIPAddress("{A6215D55-1B39-4C4E-B56E-250AB857A90A}", deviceHandle, "10.0.0.1", "255.0.0.0");
 //        Thread.sleep(10000);
-        Tap4j.close(deviceHandle);
+        TapI4j.close(deviceHandle);
     }
 
     private static final String temporaryLibraryPath = ".";

@@ -1,3 +1,3 @@
-module one.papachi.tap4j {
-	exports one.papachi.tap4j;
+module one.papachi.tapi4j {
+	exports one.papachi.tapi4j;
 }
